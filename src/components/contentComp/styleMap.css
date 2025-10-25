@@ -1,0 +1,15 @@
+
+
+.style {
+    display: flex;
+    flex-direction: column;
+}
+.hiddenMeta {
+    display: none;
+    min-height: 10px;
+    min-width: 10px;
+}
+
+.hiddenMeta:hover {
+    display: flex;
+}

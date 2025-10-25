@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    color:white;
+}
+
+:root {
+    --color-dark-grey: rgb(66, 66, 66);
+    --color-grey: rgb(77, 77, 77);
+    --color-purple: rgb(125, 7, 141);
+    --color-light-grey: rgb(163, 163, 163);
+    --color-white:rgb(255, 255, 255);
+}
+
+.ant-layout{
+    background-color: var(--color-grey);
+}
+
+.ant-tabs-nav-list {
+
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 10rem;
+    background-color:rgb(77, 77, 77);
+}
+.ant-tabs-tab {
+    justify-content: center;
+    border-radius: 16px;
+}
+.ant-tabs-tab:hover{
+    background-color:rgb(104, 104, 104);
+}
+
+.ant-tabs-tab-btn {
+    font-weight: 500;
+}
+.ant-tabs-ink-bar {
+  display: none !important;
+}
+:where(.css-dev-only-do-not-override-1cj4ms).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--color-purple);
+}
+:where(.css-dev-only-do-not-override-1cj4ms).ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
+    background-color: var(--color-dark-grey);
+}
