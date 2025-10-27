@@ -1,11 +1,12 @@
-import './styleMap.css';
+import './styleContent.css';
 
 
 export default function ContentMap(){
     return(
-        <div class='style'>
-            <img src="src/assets/pictures/board-1.webp"/>
-            <img src="src/assets/pictures/board-2.webp"/>
+        <div className='styleDivMap'>
+            <img src="/SGG/pictures/board-1.webp" alt='map'/>
+            <img src="/SGG/pictures/board-2.webp" alt='map'/>
+            <img src="/SGG/pictures/board-3.webp" alt='map'/>
         </div>
     )
 }

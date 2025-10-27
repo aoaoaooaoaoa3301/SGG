@@ -3,45 +3,48 @@
     padding: 0;
     box-sizing: border-box;
     
-    color:white;
+    color:var(--color-white);
 }
 
 :root {
-    --color-dark-grey: rgb(66, 66, 66);
-    --color-grey: rgb(77, 77, 77);
-    --color-purple: rgb(125, 7, 141);
-    --color-light-grey: rgb(163, 163, 163);
+    --color-selected: rgb(66, 66, 66);
+    --color-select: rgb(77, 77, 77);
+    --color-main: rgb(144, 9, 161);
+    --color-alt-select: rgb(117, 117, 117);
     --color-white:rgb(255, 255, 255);
 }
 
 .ant-layout{
-    background-color: var(--color-grey);
+    background-color: var(--color-select);
 }
 
 .ant-tabs-nav-list {
-
     justify-content: center;
+    max-height: 100vh;
     min-height: 100vh;
     min-width: 10rem;
-    background-color:rgb(77, 77, 77);
+}
+.ant-tabs-nav {
+    background-color:var(--color-select);
 }
 .ant-tabs-tab {
     justify-content: center;
     border-radius: 16px;
+
 }
 .ant-tabs-tab:hover{
-    background-color:rgb(104, 104, 104);
+    background-color:var(--color-alt-select);
 }
 
 .ant-tabs-tab-btn {
     font-weight: 500;
 }
 .ant-tabs-ink-bar {
-  display: none !important;
+  display: none;
 }
-:where(.css-dev-only-do-not-override-1cj4ms).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: var(--color-purple);
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--color-main);
 }
-:where(.css-dev-only-do-not-override-1cj4ms).ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
-    background-color: var(--color-dark-grey);
+.ant-tabs-tab.ant-tabs-tab-active {
+    background-color: var(--color-selected);
 }

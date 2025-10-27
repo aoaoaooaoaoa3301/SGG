@@ -1,0 +1,43 @@
+.styleDivMap {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+.styleDivPlayers {
+    padding: 2rem 1rem 2rem 1rem;
+}
+.styleDivPlayers-Content {
+    min-height: 100vh;
+    padding: 2rem;
+    border-radius: 2rem;
+    background-color: var(--color-selected);
+}
+
+.styleDivPlayers-Content .ant-tabs-nav {
+    background-color:var(--color-selected);
+}
+.styleDivPlayers-Content .ant-tabs-tab {
+    border-radius: 8px;
+}
+.styleDivPlayers-Content .ant-tabs-nav-list {
+    display: flex;
+    flex-direction: row;
+    min-height: 2rem;
+}
+
+.styleDivPlayers-Content .ant-tabs-ink-bar {
+  display: flex;
+  background-color: var(--color-main);
+}
+
+.styleDivPlayers-Content .ant-tabs-tab:hover{
+    background-color: transparent;
+}
+.styleDivPlayers-Content .ant-tabs-tab:hover .ant-tabs-tab-btn{
+    color: var(--color-main);
+}
+
+.player {
+    display: flex;
+    font-size: 12px;
+}

@@ -1,6 +1,6 @@
 import { Tabs, Layout } from 'antd';
 import ContentMap from '../contentComp/contentMap.jsx';
-import './styleContent.css';
+import ContentPlayers from '../contentComp/contentPlayers.jsx';
 
 const contentStyle = {
   borderRadius: 8,
@@ -10,16 +10,15 @@ const contentStyle = {
 const styleItem = {
   padding: 0,
 }
-const styleTab = {
-  minWidth: '20rem',
-}
 
 
 export default function AppContent(){
     return(
         <Layout.Content style={contentStyle}>
+            
             <Tabs 
             tabPosition={'left'}
+            defaultActiveKey="2"
             
             items={[
             {
@@ -31,17 +30,20 @@ export default function AppContent(){
             {
             label: 'Игроки',
             key: '2',
-            children: 'player',
+            children: <ContentPlayers />,
+            style: styleItem,
             },
             {
             label: 'FAQ',
             key: '3',
             children: 'faq',
+            style: styleItem,
             },
             {
             label: 'Клетки',
             key: '4',
             children: '123',
+            style: styleItem,
             },
             ]}
             />
