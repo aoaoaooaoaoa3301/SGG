@@ -1,0 +1,22 @@
+export const games = [
+    {
+        id:'0',
+        name:'CSGO',
+        tags:['shooter','FPS','online'],
+    },
+    {
+        id:'1',
+        name:'hollowKnight',
+        tags:['solo','soulsLike'],
+    },
+    {
+        id:'2',
+        name:'PUBG',
+        tags:['online','shooter'],
+    },
+    {
+        id:'3',
+        name:'FarCry3',
+        tags:['solo','FPS'],
+    }
+]

@@ -4,14 +4,22 @@
     box-sizing: border-box;
     
     color:var(--color-white);
+    font-family: 'OpenSans';
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'OpenSans';
+    src: url("/SGG/fonts/OpenSans-VariableFont_wdth,wght.ttf");
 }
 
 :root {
     --color-selected: rgb(66, 66, 66);
     --color-select: rgb(77, 77, 77);
-    --color-main: rgb(144, 9, 161);
+    --color-main: rgb(255, 219, 88);
+    --color-main-second: rgb(255, 222, 104);
     --color-alt-select: rgb(117, 117, 117);
     --color-white:rgb(255, 255, 255);
+    --color-black:rgb(0, 0, 0);
 }
 
 .ant-layout{
@@ -39,6 +47,18 @@
 .ant-tabs-tab-btn {
     font-weight: 500;
 }
+.ant-tabs-tab:active .ant-tabs-tab-btn:active{
+    color: var(--color-main-second);
+}
+.ant-tabs-tab:active .ant-tabs-tab-btn{
+    color: var(--color-main-second);
+}
+.ant-tabs-tab:active {
+    
+    transform: scale(0.8);
+    transition: all 0.3s;
+}
+
 .ant-tabs-ink-bar {
   display: none;
 }

@@ -26,8 +26,19 @@ export default function Player({ login }) {
   if (!playerData) return <div>Игрок не найден</div>;
 
   return (
-    <div className="player">
-      <h1>{playerData.name}</h1>
+    <div className='player'>
+      <div className='player-info'>
+        <img src={playerData.image} alt="img1" />
+        <div className='player-info-fio'>
+          <span>{playerData.name}</span>
+          <span>{playerData.fio}</span>
+        </div>
+      </div>
+      <div className='player-games'>
+        <div className="player-games-game">
+
+        </div>
+      </div>
     </div>
   );
 }

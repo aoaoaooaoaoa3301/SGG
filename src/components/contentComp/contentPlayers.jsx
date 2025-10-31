@@ -4,8 +4,8 @@ import Player from './player.jsx';
 
 export default function ContentPlayers(){
     return(
-        <div className='styleDivPlayers'>
-            <div className='styleDivPlayers-Content'>
+        <div className='styleDiv' id='players'>
+            <div className='styleDiv-Content'>
                 <Tabs 
                 tabPosition={'top'}
                 

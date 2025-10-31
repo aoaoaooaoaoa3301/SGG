@@ -1,6 +1,9 @@
 import { Tabs, Layout } from 'antd';
 import ContentMap from '../contentComp/contentMap.jsx';
 import ContentPlayers from '../contentComp/contentPlayers.jsx';
+import ContentRoll from '../contentComp/contentRoll.jsx';
+import ContentFaq from '../contentComp/contentFaq.jsx'
+import ContentCage from '../contentComp/contentCage.jsx';
 
 const contentStyle = {
   borderRadius: 8,
@@ -18,7 +21,7 @@ export default function AppContent(){
             
             <Tabs 
             tabPosition={'left'}
-            defaultActiveKey="2"
+            defaultActiveKey="1"
             
             items={[
             {
@@ -34,15 +37,21 @@ export default function AppContent(){
             style: styleItem,
             },
             {
-            label: 'FAQ',
+            label: 'Клетки',
             key: '3',
-            children: 'faq',
+            children: <ContentCage/>,
             style: styleItem,
             },
             {
-            label: 'Клетки',
+            label: 'Колесо Игр',
             key: '4',
-            children: '123',
+            children: <ContentRoll/>,
+            style: styleItem,
+            },
+            {
+            label: 'FAQ',
+            key: '5',
+            children: <ContentFaq/>,
             style: styleItem,
             },
             ]}
