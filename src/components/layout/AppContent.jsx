@@ -19,7 +19,7 @@ export default function AppContent(){
     return(
         <Layout.Content style={contentStyle}>
             
-            <Tabs 
+          <Tabs 
             tabPosition={'left'}
             defaultActiveKey="1"
             
@@ -55,7 +55,7 @@ export default function AppContent(){
             style: styleItem,
             },
             ]}
-            />
+          />
       </Layout.Content>
     )
 }
