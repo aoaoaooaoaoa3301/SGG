@@ -1,28 +1,15 @@
-import { fakeFetchGames } from "../../api";
+import { fakeFetchGames } from "../api";
 import { useState, useEffect } from 'react';
-import { randint } from "../../utils";
-import { Input } from 'antd';
-const { TextArea } = Input;
-import { Cascader } from 'antd';
+import { randint } from "../utils";
+import { Select } from 'antd';
 
-const options = [
-  {
-    value: 'FPS',
-    label: 'FPS',
-  },
-  {
-    value: 'solo',
-    label: 'solo',
-  },
-];
 
-const onChange = value => {
-  console.log(value);
-};
+// Изменить Cascader на AutoComplete
+
 
 
 export default function ContentRoll(){
-    const [gamesData, setgamesData] = useState(null);
+    const [gamesData, setGamesData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [randomGame, setRandomGame] = useState('тут будет игра');
     const [valueGame, setValueGame] = useState('');
@@ -33,7 +20,7 @@ export default function ContentRoll(){
         const fetchData = async () => {
         try {
             const gamesData = await fakeFetchGames();
-            setgamesData(gamesData);
+            setGamesData(gamesData);
         } catch (err) {
             console.error('Ошибка загрузки:', err);
         } finally {
@@ -45,12 +32,8 @@ export default function ContentRoll(){
     });
     
     if (loading) return <div>Загрузка...</div>;
-    if (!gamesData) return <div>Игрок не найден</div>;
-    
+    if (!gamesData) return <div>Игр нет</div>;
 
-    const valueGameChange = (event) => {
-        setValueGame(event.target.value);
-    }
     const valueGameSubmit = (event) => {
         event.preventDefault();
         const tagsForGames = valueGame.split(',').map(item => item.trim());
@@ -67,6 +50,16 @@ export default function ContentRoll(){
         else {setRandomGame(foundedGames[randint(0,foundedGames.length-1)].name)}
     }
 
+    const valueGameChange = value => {
+        console.log(`selected ${value}`);
+        setValueGame(value);
+    };
+
+    const onSearch = value => {
+        console.log('search:', value);
+    };
+
+
     return(
         <div className="styleDiv" id='roll'>
             <div className="styleDiv-Content">
@@ -75,17 +68,26 @@ export default function ContentRoll(){
                 <p>{randomGame}</p>
                 <form onSubmit={valueGameSubmit}>
                     <label>
-                        <TextArea className="tagsInput" rows={4} placeholder="Введи сюда тэги игры(вводи тэги точно)" value={valueGame} onChange={valueGameChange}/>
-                        {/*<Cascader
-                            placeholder="Выбери коллекцию"
-                            value={valueGame[0]}
-                            onChange={valueGameChange}
+                        <Select
                             className="tagsInput"
-                            options={options}
-                            expandTrigger="hover"
-                            
+                            showSearch={{ optionFilterProp: 'label', onSearch }}
+                            placeholder="Выбери коллекцию"
+                            onChange={valueGameChange}
+                            options={[
+                            {
+                                value: 'solo',
+                                label: 'solo',
+                            },
+                            {
+                                value: 'fps',
+                                label: 'fps',
+                            },
+                            {
+                                value: 'online',
+                                label: 'online',
+                            },
+                            ]}
                         />
-                        */}
                     </label>
                     <div className="butContainer">
                         <button type="submit" className="buttonToRoll">

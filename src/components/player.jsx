@@ -1,4 +1,4 @@
-import { fakeFetchPlayers } from "../../api";
+import { fakeFetchPlayers } from "../api";
 import { useState, useEffect } from 'react';
 
 

@@ -3,19 +3,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App, { CatalogPage } from './App';
+import ContentMap from './components/contentMap'
+
+import './components/styleContent.css'
+import './style.css'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <div>Выберите каталог</div> },
+      { index: true, element: <ContentMap /> },
       { path: ':category', element: <CatalogPage /> },
     ],
   },
 ],
 {
-    basename: '/SGG', // ← вот это важно!
+    basename: '/SGG', 
   });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

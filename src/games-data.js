@@ -2,7 +2,7 @@ export const games = [
     {
         id:'0',
         name:'CSGO',
-        tags:['shooter','FPS','online'],
+        tags:['shooter','fps','online'],
     },
     {
         id:'1',
@@ -17,6 +17,6 @@ export const games = [
     {
         id:'3',
         name:'FarCry3',
-        tags:['solo','FPS'],
+        tags:['solo','fps'],
     }
 ]

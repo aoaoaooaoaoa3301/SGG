@@ -56,6 +56,9 @@
 .ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child {
     background-color:var(--color-selected);
 }
+.ant-menu-item.ant-menu-item-selected.ant-menu-item-only-child span {
+    color: var(--color-main);
+}
 
 .ant-menu-item:active{
     background-color:black;

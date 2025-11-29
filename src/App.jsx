@@ -2,31 +2,26 @@
 import { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import AppContent from './components/layout/AppContent';
-import ContentMap from './components/contentComp/contentMap';
-import ContentPlayers from './components/contentComp/contentPlayers.jsx';
-import ContentRoll from './components/contentComp/contentRoll.jsx';
-import ContentFaq from './components/contentComp/contentFaq.jsx'
-import ContentCage from './components/contentComp/contentCage.jsx';
-
-import './style.css'
+import ContentPlayers from './components/contentPlayers.jsx';
+import ContentRoll from './components/contentRoll.jsx';
+import ContentFaq from './components/contentFaq.jsx'
 
 const { Sider, Content } = Layout;
 
-// Данные каталогов
 const catalogs = {
-  map: <ContentMap/>,
+  map: '',
   wheel: <ContentRoll/>,
   players: <ContentPlayers/>,
+  faq: <ContentFaq />,
 };
 
 const catalogNames = {
   map: 'Карта',
   wheel: 'Колесо Игр',
   players: 'Игроки',
+  faq: 'FAQ',
 };
 
-// Компонент страницы каталога
 export function CatalogPage() {
   const { category } = useParams();
 
@@ -38,22 +33,31 @@ export function CatalogPage() {
     <div>
       {catalogs[category]}
     </div>
-  );
-}
+  )
+};
 
-// Главный компонент приложения
+const getKeyFromPath = (pathname) => {
+  if (pathname === '/' || pathname === '/SGG' || pathname === '/SGG/') {
+    return 'map';
+  }
+  const match = pathname.match(/\/SGG\/([^/]+)/);
+  const category = match ? match[1] : null;
+  return catalogs[category] ? category : 'map';
+};
+
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const activeKey = getKeyFromPath(location.pathname);
 
-  // Меню-элементы для Ant Design
   const menuItems = Object.keys(catalogs).map((key) => ({
     key,
     label: catalogNames[key],
   }));
 
   const handleMenuClick = ({ key }) => {
-    navigate(`/${key}`);
+    if(key == 'map') { navigate(``); }
+    else{ navigate(`/${key}`); }
   };
 
   return (
@@ -68,12 +72,12 @@ export default function App() {
         <Menu
           mode="inline"
           inlineCollapsed={collapsed}
+          selectedKeys={[activeKey]}
           items={menuItems}
           onClick={handleMenuClick}
         />
       </Sider>
 
-      {/* Основной контент — сюда рендерятся маршруты */}
       
       <Content>
         <Outlet />
@@ -81,4 +85,4 @@ export default function App() {
       
     </Layout>
   );
-}
+};

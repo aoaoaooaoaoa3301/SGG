@@ -1,4 +1,3 @@
-import './styleContent.css';
 import { Tabs } from 'antd';
 import Player from './player.jsx';
 
