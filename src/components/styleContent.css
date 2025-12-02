@@ -35,7 +35,7 @@
     height: 4rem;
 
     cursor: pointer;
-    border: 1px solid black;
+    border: 1px solid var(--color-black);
     border-radius: 8px;
 }
 #map .cage-info{
@@ -59,7 +59,7 @@
     left: 100%;
     height: 1px;
     width: 18px;
-    background-color:black;
+    background-color:var(--color-black);
 }
 #map .cage-2line::before{
     content: '';
@@ -67,7 +67,7 @@
     right: 100%;
     height: 1px;
     width: 18px;
-    background-color:black;
+    background-color:var(--color-black);
 }
 #map .cage.cage-special:before{
     content: '';
@@ -76,7 +76,7 @@
     left: 50%;
     height: 18px;
     width: 1px;
-    background-color:black;
+    background-color:var(--color-black);
 }
 
 
@@ -145,7 +145,7 @@
 }
 #roll label{
     width: 50%;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 }
 #roll .ant-select-selector{
     background-color:var(--color-selected);
@@ -154,25 +154,129 @@
 #roll .ant-select-selector:hover{
     border-color:var(--color-main);
 }
-.ant-select-focused:where(.css-dev-only-do-not-use-1cj4ms).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
-    border-color:var(--color-main) !important;
-}
-
-
-
-.css-dev-only-do-not-override-1cj4ms.ant-select-dropdown {
-    background-color: var(--color-select);
-}
 #roll .ant-select-selection-placeholder {
-    
     color: var(--color-white);
 }
-#roll .ant-select-selection-item{
+#roll .ant-select-selection-item {
     font-weight: 700;
 }
-.css-dev-only-do-not-override-1cj4ms.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+.ant-select-focused.ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+    border-color:var(--color-main);
+}
+.ant-select-dropdown {
+    background-color: var(--color-select);
+}
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     background-color: var(--color-alt-select);
 }
+.container {
+    position: relative;
+    
+    width: 100%;
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+      
+    user-select: none;
+}
+
+.pointer {
+    position: absolute;
+    top: 70px;
+      
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 40px solid var(--color-main);
+    z-index: 10;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.pointer-right {
+    left: 100%;
+    transform: rotate(90deg);
+}
+.pointer-left {
+    right:100%;
+    transform: rotate(-90deg);
+}
+.wheel-pack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    width: 30%;
+    position: relative;
+
+}
+
+.wheel-container {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border: 3px solid var(--color-alt-selected);
+    border-radius: 20px;
+    background: var(--color-light-alt-selected);
+    z-index: 1;
+}
+
+.wheel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: none;
+}
+    
+
+.wheel-item {
+    height: 60px;
+    line-height: 60px;
+    border-top:1px solid var(--color-alt-selected);
+    border-bottom:1px solid var(--color-alt-selected);
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: #e0e0ff;
+    white-space: nowrap;
+    width: 100%;
+    user-select: none;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.controls label {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.controls input {
+    width: 60px;
+    padding: 6px;
+    border:none;
+    border-radius: 6px;
+    background: var(--color-select);
+    color: var(--color-white);
+    text-align: center;
+    font-size: 14px;
+}
+
+.controls input:focus {
+    outline: 2px solid var(--color-main);
+}
+
 
 
 .tagsInput {
@@ -185,7 +289,7 @@
     color: rgba(255, 255, 255, 0.562);
 }
 .tagsInput:hover, .tagsInput:focus{
-    color: var(--color-black);
+    color: var(--color-var(--color-black));
     border-color: var(--color-selected);
 }
 

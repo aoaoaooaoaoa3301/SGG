@@ -3,14 +3,15 @@ import { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import ContentPlayers from './components/contentPlayers.jsx';
-import ContentRoll from './components/contentRoll.jsx';
+import ContentWheel from './components/contentWheel.jsx';
 import ContentFaq from './components/contentFaq.jsx'
+import Test from './components/test.jsx'
 
 const { Sider, Content } = Layout;
 
 const catalogs = {
   map: '',
-  wheel: <ContentRoll/>,
+  wheel: <ContentWheel/>,
   players: <ContentPlayers/>,
   faq: <ContentFaq />,
 };

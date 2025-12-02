@@ -14,10 +14,12 @@
 
 :root {
     --color-selected: rgb(66, 66, 66);
+    --color-alt-selected: rgb(44, 44, 44);
+    --color-light-alt-selected: rgb(55, 55, 55);
     --color-select: rgb(77, 77, 77);
+    --color-alt-select: rgb(117, 117, 117);
     --color-main: rgb(255, 219, 88);
     --color-main-second: rgb(255, 222, 104);
-    --color-alt-select: rgb(117, 117, 117);
     --color-white:rgb(255, 255, 255);
     --color-black:rgb(0, 0, 0);
 }
@@ -61,7 +63,7 @@
 }
 
 .ant-menu-item:active{
-    background-color:black;
+    background-color:var(--color-black);
 }
 
 .ant-menu-title-content{
