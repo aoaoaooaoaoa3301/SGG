@@ -24,10 +24,10 @@ export default function ContentMap(){
     if (!mapData) return <div>Карты нет</div>;
 
     return(
-        <div className="styleDiv" id='map'>
+        <div className="styleDiv flex-center" id='map'>
             <div className="styleDiv-Content">
                 {mapData.map( (cage) => (
-                    <div className={"cage" + " " + (cage.special == 'yes' ? "cage-special" : (cage.line == 1 ? "cage-1line" : "cage-2line"))}>
+                    <div className={"cage" + (cage.end == 'yes' ? "" : " " + (cage.special == 'yes' ? "cage-special" : (cage.line == 1 ? "cage-1line" : "cage-2line"))) }  style={{backgroundColor:cage.color}}>
                         {cage.name}
                         <span className="cage-info">{cage.info}</span>
                     </div>

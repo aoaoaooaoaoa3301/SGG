@@ -11,8 +11,13 @@
     font-family: 'OpenSans';
     src: url("/SGG/fonts/OpenSans-VariableFont_wdth,wght.ttf");
 }
+body{
+    background-color: var(--color-select);
+}
 
 :root {
+
+/* добавить --color-bg и так далее */
     --color-selected: rgb(66, 66, 66);
     --color-alt-selected: rgb(44, 44, 44);
     --color-light-alt-selected: rgb(55, 55, 55);
@@ -22,6 +27,7 @@
     --color-main-second: rgb(255, 222, 104);
     --color-white:rgb(255, 255, 255);
     --color-black:rgb(0, 0, 0);
+    --color-error: rgb(255, 92, 92);
 }
 
 .ant-layout{

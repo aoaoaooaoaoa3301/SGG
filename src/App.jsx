@@ -1,11 +1,10 @@
-// App.jsx
 import { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import ContentPlayers from './components/contentPlayers.jsx';
 import ContentWheel from './components/contentWheel.jsx';
 import ContentFaq from './components/contentFaq.jsx'
-import Test from './components/test.jsx'
+import ContentAccount from './components/contentAccount.jsx';
 
 const { Sider, Content } = Layout;
 
@@ -13,6 +12,7 @@ const catalogs = {
   map: '',
   wheel: <ContentWheel/>,
   players: <ContentPlayers/>,
+  account: <ContentAccount />,
   faq: <ContentFaq />,
 };
 
@@ -20,6 +20,7 @@ const catalogNames = {
   map: 'Карта',
   wheel: 'Колесо Игр',
   players: 'Игроки',
+  account: 'Аккаунт',
   faq: 'FAQ',
 };
 

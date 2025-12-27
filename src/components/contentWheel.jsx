@@ -11,10 +11,10 @@ import { Select } from 'antd';
 export default function ContentWheel(){
     const [gamesData, setGamesData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [randomGame, setRandomGame] = useState('тут будет игра');
     const [valueGame, setValueGame] = useState('');
     const [winningIndex, setWinningIndex] = useState(null);
     const [spinTape, setSpinTape] = useState([]);
+    const [gotedGameData, setGotedGameData] = useState(`тут будет игра`);
     
     
 
@@ -38,19 +38,20 @@ export default function ContentWheel(){
 
     const valueGameSubmit = (event) => {
         event.preventDefault();
+        localStorage.removeItem('auth');
         const tagsForGames = valueGame.split(',').map(item => item.trim());
         const foundedGames = [];
 
         
         for( const game of gamesData){
-            if(tagsForGames.every(found => game.tags.includes(found))){
+            if(tagsForGames.every(found => game.tag.includes(found))){
                 foundedGames.push(game);
             }
         }
         if (isSpinning) return;
         const randomCorrection = randint(-27, 30);
         console.log(randomCorrection);
-        startSpin(foundedGames.map((game) =>(game.name)),randomCorrection);
+        startSpin(foundedGames,randomCorrection);
     }
 
     const valueGameChange = value => {
@@ -70,7 +71,7 @@ export default function ContentWheel(){
 
     // DOM
     const wheel = document.getElementById('wheel');
-    const durationInput = document.getElementById('duration');
+    //const durationInput = document.getElementById('duration');
 
     let isSpinning = false;
     let animationId = null;
@@ -78,9 +79,10 @@ export default function ContentWheel(){
 
     // Генерация случайной ленты
     function generateTape(list) {
+      const new_list = list.map((game) =>(game.name));
       const tape = [];
       for (let i = 0; i < totalItems; i++) {
-        tape.push(list[Math.floor(Math.random() * list.length)]);
+        tape.push(new_list[Math.floor(Math.random() * new_list.length)]);
       }
       return tape;
     }
@@ -100,12 +102,11 @@ export default function ContentWheel(){
       
 
       // Время анимации
-      const duration = parseFloat(durationInput.value); // сек
+      const duration = parseFloat(3); // сек
 
       // Анимация с ease-out
       const startTime = performance.now();
       const startPosition = 0;
-      let lastPosition = 0.0;
 
       function animate(currentTime) {
         const elapsed = (currentTime - startTime) / 1000;
@@ -118,12 +119,14 @@ export default function ContentWheel(){
           const currentY = startPosition + (targetPosition - startPosition) * eased;
           wheel.style.transform = `translateY(${currentY + randomCorrection}px)`;
           animationId = requestAnimationFrame(animate);
-          lastPosition = currentY + randomCorrection;
         }
         
         else {
             wheel.style.transform = `translateY(${targetPosition}px)`;
-
+            console.log(list);
+            const item = list.find(game => game.name === tape[targetElementIndex + 1]);
+            console.log(item);
+            setGotedGameData(`Выскочившая игра под наимованием ${item.name} за нее тебе положено ${item.dices} 🎲`);
             setWinningIndex(targetElementIndex + 1);
             isSpinning = false;
             
@@ -132,21 +135,17 @@ export default function ContentWheel(){
 
       requestAnimationFrame(animate);
     }
-
-
-
-
     return(
         <div className="styleDiv" id='roll'>
             <div className="styleDiv-Content">
                 <h1>Супер-Пупер Колесо</h1>
-                <div class="container" id="container">
+                <div className="container" id="container">
                     <div className="wheel-pack">
-                        <div class="pointer pointer-left"></div>
-                        <div class="pointer pointer-right"></div>
+                        <div className="pointer pointer-left"></div>
+                        <div className="pointer pointer-right"></div>
 
-                        <div class="wheel-container">
-                            <div class="wheel" id="wheel">
+                        <div className="wheel-container">
+                            <div className="wheel" id="wheel">
                                 {spinTape.map((item, index) => (
                                     <div key={index} id={index} className='wheel-item' style={{color: winningIndex == index ? `var(--color-main)` : `var(--color-white)`}}>
                                         {item}
@@ -156,12 +155,13 @@ export default function ContentWheel(){
                         </div>
                     </div>  
                     
-                    <div class="controls">
-                        <div>
+                    <div className="controls">
+                        {/* <div>
                             <label>Время прокрутки: <input id="duration" type="number" defaultValue={3} min="3" max="10"/> с</label>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
+                <p>{gotedGameData}</p>
                 <form onSubmit={valueGameSubmit}>
                     <label>
                         <Select
@@ -171,16 +171,36 @@ export default function ContentWheel(){
                             onChange={valueGameChange}
                             options={[
                             {
-                                value: 'solo',
-                                label: 'solo',
+                                value: 'Detective',
+                                label: 'Detective',
                             },
                             {
-                                value: 'fps',
-                                label: 'fps',
+                                value: 'Horror',
+                                label: 'Horror',
                             },
                             {
-                                value: 'online',
-                                label: 'online',
+                                value: 'Martial arts',
+                                label: 'Martial arts',
+                            },
+                            {
+                                value: 'Race',
+                                label: 'Race',
+                            },
+                            {
+                                value: 'Rogue-like',
+                                label: 'Rogue-like',
+                            },
+                            {
+                                value: 'Souls-like',
+                                label: 'Souls-like',
+                            },
+                            {
+                                value: 'Space',
+                                label: 'Space',
+                            },
+                            {
+                                value: 'War',
+                                label: 'War',
                             },
                             ]}
                         />

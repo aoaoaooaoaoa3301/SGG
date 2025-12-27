@@ -1,26 +1,32 @@
-.styleDivMap {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
 
-}
 .styleDiv {
     padding: 2rem 1rem 2rem 1rem;
+    
 }
 .styleDiv-Content {
-    min-height: 100vh;
     padding: 2rem;
+    min-height: 100vh;
+
     border-radius: 2rem;
     background-color: var(--color-selected);
 }
-
-
+.error {
+    color: var(--color-error);
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+/*map*/
 #map .styleDiv-Content {
     display: grid;
+    min-height: 0;
     grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(10,1fr);
     gap: 1rem;
-    padding: 10%;
+    
+    padding: 2rem;
 }
 
 #map .cage {
@@ -28,15 +34,16 @@
     justify-content: center;
     align-items: center;
 
-    position: relative;
+    font-size: 18px;
 
-    max-width: 7rem;
-    min-width: 4rem;
+    position: relative;
+    width: 7rem;
+    
     height: 4rem;
 
     cursor: pointer;
-    border: 1px solid var(--color-black);
-    border-radius: 8px;
+    border: 2px solid var(--color-alt-select);
+    border-radius: 24px;
 }
 #map .cage-info{
     visibility: hidden;
@@ -48,38 +55,40 @@
     background-color:var(--color-alt-select);
     top: 3rem;
     width: 120%;
-    border-radius: 8px;
+    border-radius: 8px; 
 }
 #map .cage:hover .cage-info{
     visibility: visible;
+    white-space: pre-line;
+    width: 15rem;
 }
 #map .cage-1line::before{
     content: '';
     position: absolute;
     left: 100%;
-    height: 1px;
-    width: 18px;
-    background-color:var(--color-black);
+    height: 2px;
+    width: calc(1rem + 2px);
+    background-color:var(--color-alt-select);
 }
 #map .cage-2line::before{
     content: '';
     position: absolute;
     right: 100%;
-    height: 1px;
-    width: 18px;
-    background-color:var(--color-black);
+    height: 2px;
+    width: calc(1rem + 2px);
+    background-color:var(--color-alt-select);
 }
 #map .cage.cage-special:before{
     content: '';
     position: absolute;
     top: 100%;
     left: 50%;
-    height: 18px;
-    width: 1px;
-    background-color:var(--color-black);
+    height: calc(1rem + 2px);
+    width: 2px;
+    background-color:var(--color-alt-select);
 }
 
-
+/*players*/
 #players .ant-tabs-nav {
     background-color:var(--color-selected);
 }
@@ -116,6 +125,7 @@
 }
 .player-info {
     display: flex;
+    position: relative;
     min-width: 100%;
 }
 .player-info-fio {
@@ -126,15 +136,15 @@
     min-width: 80%;
 }
 
+/*wheel*/
 
 #roll h1 {
     text-align: center;
-    margin-bottom: 10rem;
+    margin-bottom: 8rem;
 }
 
 #roll p {
     text-align: center;
-
     margin-bottom: 3rem;
 }
 #roll form {
@@ -209,9 +219,8 @@
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    width: 30%;
+    width: 40%;
     position: relative;
-
 }
 
 .wheel-container {
@@ -320,4 +329,105 @@
     height: 4rem;
     box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.521);
     background-color:var(--color-main-second);
+}
+
+
+
+/*account*/
+
+.login-notification-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.login-notification {
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+
+    padding: 20px;
+    width: 25rem;
+    aspect-ratio: 1/1;
+
+    background-color: var(--color-alt-select);
+    border-radius:16px;
+}
+.login-notification h1 {
+    text-align: center;
+    margin-bottom: 6rem;
+}
+.login-notification input { 
+    text-align: center;
+    color: var(--color-white);
+    background-color: var(--color-alt-selected);
+    height: 2rem;
+    border: none;
+    border-radius:8px;
+}
+.login-notification input::placeholder {
+    text-align: center;
+    color: var(--color-white);
+}
+.login-notification form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    gap:1rem;
+}
+.login-notification button {
+    text-align: center;
+    cursor: pointer;
+    color: var(--color-main);
+    background-color: var(--color-alt-selected);
+    height: 2rem;
+    width: 4rem;
+    border: none;
+    border-radius:8px;
+}
+.login-notification button:hover {
+    border: 1px solid var(--color-main);
+}
+
+.input-account{
+    border: none;
+    background-color: var(--color-selected);
+    color: var(--color-white);
+    font-size: 20px;
+}
+.input-account-fio{
+    width: 40rem;
+    height: 10rem;
+}
+
+
+
+.button-change{
+    cursor: pointer;
+    padding: 0.5rem;
+    color:var(--color-white);
+    background-color: var(--color-alt-select);
+    border: 1px solid var(--color-alt-selected);
+    border-radius:1rem;
+}
+.button-change-image{
+    position: absolute;
+    white-space: pre-line;
+
+    left: 18%;
+    bottom: -2%;
+}
+.button-change:hover{
+    color:var(--color-main);
+}
+.button-change:active{
+    background-color: var(--color-alt-selected);
+}
+
+#account .player-info-fio{
+    gap: 50%;
 }
