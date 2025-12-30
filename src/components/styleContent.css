@@ -54,13 +54,14 @@
 
     background-color:var(--color-alt-select);
     top: 3rem;
-    width: 120%;
-    border-radius: 8px; 
+    width: 0;
+    border-radius: 8px;
 }
 #map .cage:hover .cage-info{
     visibility: visible;
     white-space: pre-line;
     width: 15rem;
+    transition: 0.1s;
 }
 #map .cage-1line::before{
     content: '';
@@ -139,7 +140,6 @@
 /*wheel*/
 
 #roll h1 {
-    text-align: center;
     margin-bottom: 8rem;
 }
 
@@ -274,13 +274,9 @@
 .controls input {
     width: 60px;
     padding: 6px;
-    border:none;
-    border-radius: 6px;
-    background: var(--color-select);
-    color: var(--color-white);
-    text-align: center;
-    font-size: 14px;
+    
 }
+
 
 .controls input:focus {
     outline: 2px solid var(--color-main);
@@ -357,7 +353,6 @@
     border-radius:16px;
 }
 .login-notification h1 {
-    text-align: center;
     margin-bottom: 6rem;
 }
 .login-notification input { 
@@ -430,4 +425,84 @@
 
 #account .player-info-fio{
     gap: 50%;
+}
+
+
+/*Dice*/
+
+#dice .styleDiv-Content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#dice h1 {
+    margin-bottom: 8rem;
+}
+.dice-img {
+    width: 10rem;
+    
+}
+#dice .inputNumDices {
+
+    text-align: center;
+    width: 4rem;
+    height: 4rem;
+
+    margin-bottom: 3rem;
+}
+
+.dice-container {
+    display: flex;
+    gap: 2rem;
+
+    margin-bottom: 15rem;
+}
+
+/*shop*/
+#shop h1 {
+    margin-bottom: 4rem;
+}
+.grid-ShopItems {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+
+    gap: 1rem;
+    margin-bottom: 4rem;
+}
+.cardShop{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    padding: 1rem 0 1rem 0;
+    gap: 3rem;
+
+    border-radius: 32px;
+
+    background-color: var(--color-alt-select);
+}
+.cardShop img {
+    width: 15rem;
+}
+.cardShop p {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    
+}
+.buttonToBuy {
+    cursor: pointer;
+    transform: scale(0.8);
+    transition: all 0.3s;
+    width: 15rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 1px 0px rgba(0, 0, 0, 0.877);
+    
+    background-color:var(--color-main);
+}
+.buttonToBuy:hover {
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.521);
+    background-color:var(--color-main-second);
 }

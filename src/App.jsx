@@ -5,23 +5,29 @@ import ContentPlayers from './components/contentPlayers.jsx';
 import ContentWheel from './components/contentWheel.jsx';
 import ContentFaq from './components/contentFaq.jsx'
 import ContentAccount from './components/contentAccount.jsx';
+import ContentDice from './components/contentDice.jsx'
+import ContentShop from './components/contentShop.jsx';
 
 const { Sider, Content } = Layout;
 
 const catalogs = {
   map: '',
   wheel: <ContentWheel/>,
+  dice: <ContentDice/>,
   players: <ContentPlayers/>,
   account: <ContentAccount />,
+  shop:<ContentShop/>,
   faq: <ContentFaq />,
 };
 
 const catalogNames = {
   map: 'Карта',
   wheel: 'Колесо Игр',
+  dice: 'Кубик',
   players: 'Игроки',
   account: 'Аккаунт',
-  faq: 'FAQ',
+  shop: 'Магазин',
+  faq: 'Правила',
 };
 
 export function CatalogPage() {

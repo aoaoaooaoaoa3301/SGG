@@ -30,6 +30,18 @@ body{
     --color-error: rgb(255, 92, 92);
 }
 
+h1 {
+    text-align: center;
+}
+input{
+    border:none;
+    border-radius: 6px;
+    background: var(--color-select);
+    color: var(--color-white);
+    text-align: center;
+    font-size: 14px;
+}
+
 .ant-layout{
     background-color: var(--color-select);
 }

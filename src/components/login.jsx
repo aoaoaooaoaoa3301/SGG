@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { players } from './../players-data.js'
+import { players } from '../players-data.js'
 
 export default function Login(){
     const [pincode, setPincode] = useState(null);

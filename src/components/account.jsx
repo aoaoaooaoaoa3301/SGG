@@ -13,14 +13,11 @@ export default function Account(){
                 <button className='button-change button-change-image flex-center'>{'изменить\n фото'}</button>
                 <div className='player-info-fio'>
                     <div style={styleFlex}>
-                        <span style={{color:'var(--color-main)'}}>name: </span>
-                        <form action="" style={styleFlex}>
-                            <input placeholder={user.login} className='input-account ' type="text" />
-                            <button className='button-change flex-center'>{'изменить'}</button>
-                        </form>
+                        <span>{user.login}</span>
+                        
+                        
                     </div>
                     <div style={styleFlex}>
-                        <span style={{color:'var(--color-main)'}}>fio: </span>
                         <form action="" style={styleFlex}>
                             <textarea placeholder={user.fio} className='input-account input-account-fio' type="text" />
                             <button className='button-change flex-center'>{'изменить'}</button>
