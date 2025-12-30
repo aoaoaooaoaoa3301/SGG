@@ -26,8 +26,8 @@ export default function ContentMap(){
     return(
         <div className="styleDiv flex-center" id='map'>
             <div className="styleDiv-Content">
-                {mapData.map( (cage) => (
-                    <div className={"cage" + (cage.end == 'yes' ? "" : " " + (cage.special == 'yes' ? "cage-special" : (cage.line == 1 ? "cage-1line" : "cage-2line"))) }  style={{backgroundColor:cage.color}}>
+                {mapData.map( (cage,index) => (
+                    <div key={index} className={"cage" + (cage.end == 'yes' ? "" : " " + (cage.special == 'yes' ? "cage-special" : (cage.line == 1 ? "cage-1line" : "cage-2line"))) }  style={{backgroundColor:cage.color}}>
                         {cage.name}
                         <span className="cage-info">{cage.info}</span>
                     </div>

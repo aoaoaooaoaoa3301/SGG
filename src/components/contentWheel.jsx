@@ -2,6 +2,7 @@ import { fakeFetchGames } from "../api";
 import { useState, useEffect } from 'react';
 import { randint } from "../utils";
 import { Select } from 'antd';
+import clickSound from '/sound/cassette-player-button.mp3';
 
 
 // Изменить Cascader на AutoComplete
@@ -37,6 +38,8 @@ export default function ContentWheel(){
     if (!gamesData) return <div>Игр нет</div>;
 
     const valueGameSubmit = (event) => {
+        const audio = new Audio(clickSound);
+        audio.play();
         event.preventDefault();
         localStorage.removeItem('auth');
         const tagsForGames = valueGame.split(',').map(item => item.trim());

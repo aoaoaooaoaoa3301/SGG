@@ -14,11 +14,12 @@ export default function ContentShop(){
                     {shop.map(el => (
                         <div key={el.id} className="cardShop">
                             <h2>{el.name}</h2>
+                            <p>осталось 2 штуки</p>
                             <img src={el.img} alt="" />
                             <p>{el.info} </p>
                             
                             <p>стоит {el.price}</p>
-                            <p>осталось 2 штуки</p>
+                            
                             <div className="butContainer">
                                 <button className="buttonToBuy">
                                     Купить
@@ -27,7 +28,7 @@ export default function ContentShop(){
                         </div>
                     ))}
                 </div>
-                <h1>До обновления магазина осталось 5ч</h1>
+                <h1>До обновления магазина осталось 4ч</h1>
             </div>
         </div>
     );  

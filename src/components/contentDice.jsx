@@ -1,6 +1,9 @@
 import { dices } from "../dice-data.js";
 import { useState, useRef, useEffect } from "react";
 import { Select } from 'antd';
+import clickSound from '/sound/turn-on-sound.mp3';
+import switchSound from '/sound/unusual-switching-sound.mp3'
+import reRollSound from '/sound/one-dice-is-thrown-on-the-table.mp3'
 
 export default function ContentDice(){
     const [numDice, setNumDice] = useState(1);
@@ -10,10 +13,14 @@ export default function ContentDice(){
 
     const onChangeInput = value => {
         setNumDice(value);
+        const audioSwitch = new Audio(switchSound);
+        audioSwitch.play();
     }
     
 
     function toRollDice() {
+        const audioClick = new Audio(clickSound);
+        audioClick.play();
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
             clearTimeout(timeoutRef.current);
@@ -21,8 +28,9 @@ export default function ContentDice(){
 
         intervalRef.current = setInterval(() => {
             const newIndices = Array.from({ length: numDice }, () =>
-        Math.floor(Math.random() * dices.length)
-    );
+        Math.floor(Math.random() * dices.length));
+            const audioReRoll = new Audio(reRollSound);
+            audioReRoll.play();
             setDiceIndices(newIndices);
         }, 300);
 
@@ -36,6 +44,7 @@ export default function ContentDice(){
 
     const onSearch = value => {
         console.log('search:', value);
+        
     };
 
     return(

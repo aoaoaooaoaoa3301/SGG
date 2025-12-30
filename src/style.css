@@ -6,6 +6,7 @@
     color:var(--color-white);
     font-family: 'OpenSans';
     font-weight: 700;
+    white-space: pre-line;
 }
 @font-face {
     font-family: 'OpenSans';
@@ -41,6 +42,13 @@ input{
     text-align: center;
     font-size: 14px;
 }
+a{
+    color: var(--color-main);
+}
+a:hover{
+    color: var(--color-main-second);
+}
+
 
 .ant-layout{
     background-color: var(--color-select);
