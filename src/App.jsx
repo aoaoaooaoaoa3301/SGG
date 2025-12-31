@@ -55,7 +55,7 @@ const getKeyFromPath = (pathname) => {
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeKey, setActiveKey] = useState('map')
+  const [activeKey, setActiveKey] = useState(window.location.pathname == '/' ? 'map' : (window.location.pathname).split('/')[1] )
   const navigate = useNavigate();
 
 
