@@ -509,9 +509,3 @@
     box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.521);
     background-color:var(--color-main-second);
 }
-a{
-    color: var(--color-main);
-}
-a:hover{
-    color: var(--color-main-secondmain);
-}
