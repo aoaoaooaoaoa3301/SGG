@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   },
 ],
 {
-    basename: '/SGG', 
+    basename: './', 
   });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -10,7 +10,7 @@
 }
 @font-face {
     font-family: 'OpenSans';
-    src: url("/SGG/fonts/OpenSans-VariableFont_wdth,wght.ttf");
+    src: url("./fonts/OpenSans-VariableFont_wdth,wght.ttf");
 }
 body{
     background-color: var(--color-select);
