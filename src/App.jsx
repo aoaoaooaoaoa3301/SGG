@@ -55,8 +55,9 @@ const getKeyFromPath = (pathname) => {
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const [activeKey, setActiveKey] = useState('map')
   const navigate = useNavigate();
-  const activeKey = getKeyFromPath(location.pathname);
+
 
   const menuItems = Object.keys(catalogs).map((key) => ({
     key,
@@ -64,8 +65,10 @@ export default function App() {
   }));
 
   const handleMenuClick = ({ key }) => {
+    setActiveKey(key);
     if(key == 'map') { navigate(``); }
     else{ navigate(`/${key}`); }
+    console.log(activeKey);
   };
 
   return (
