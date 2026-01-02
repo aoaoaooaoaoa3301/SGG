@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { players } from '../players-data.js'
+import { ALLOWED_LOGINS } from '../allowedLogins.js';
 
 export default function Login(){
     const [pincode, setPincode] = useState(null);
@@ -10,10 +11,13 @@ export default function Login(){
     }
     const onSubmit = event => {
         event.preventDefault();
-        const found = players.find(a => a.login === pincode);
-        if(!found){setIsFound(false);}
-        if(found){localStorage.setItem('auth', found.login); location.reload(); setIsFound(true);}
-        
+        if (ALLOWED_LOGINS.includes(pincode.trim())) {
+            localStorage.setItem('auth', pincode.trim());
+            location.reload();
+            setIsFound(true);
+            } else {
+            setIsFound(false);
+        }
     }
 
     return(

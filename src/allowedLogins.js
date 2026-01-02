@@ -1,0 +1,1 @@
+export const ALLOWED_LOGINS = ['123', '4556','Tron'];

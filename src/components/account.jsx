@@ -1,6 +1,7 @@
 import { players } from './../players-data.js';
 import { Table, ConfigProvider } from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient.js';
 
 const styleFlex = {display:'flex', alignItems:'center', gap:'1rem'};
 const statusGame1 = 'Дроп';
@@ -105,6 +106,16 @@ const columns = [
     width: '40%',
   },
 ];
+function createGameList(list){
+  return list.map( item => ({
+    key: item.id,
+    cage: <input style={styleInput} type='number' placeholder={item.cage }/>,
+    name: <input style={styleInput} placeholder={item.name }/>,
+    rating:  <input style={styleInput} type='number' placeholder={`${item.rating}/10`}/>,
+    result: <input style={{...styleInput, backgroundColor: getStatusColor(item.result)}} placeholder={item.result}/>,
+    commit: <input style={styleInput} placeholder={item.commit}/>,
+  }))
+}
 
 
 export default function Account(){
@@ -113,14 +124,50 @@ export default function Account(){
     const [nowKey, setNowKey] = useState(dataSource.length+1);
     const [dataGames, setDataGames] = useState(dataSource);
     const [itemsInvent, setItemsInvent] = useState(itemsInInventory);
+    const [playerData, setPlayerData] = useState();
+    const [playerGames, setPlayerGames] = useState();
     
+    useEffect(() =>{
+      const fetchPlayer = async () =>{
+        const {data, error} = await supabase
+          .from('Accounts')
+          .select('*')
+          .eq('login', localStorage.getItem('auth'))
+          if(error) {console.log('error: ', error)}
+          else {
+            setPlayerData(data[0])
+            if (data[0]?.gameList) {
+              await fetchPlayerGames(data[0].gameList);
+            }
+          }
+      }
+      const fetchPlayerGames = async (table) => {
+              const { data, error } = await supabase
+                .from(table) // ← имя вашей таблицы
+                .select('*')
+              if (error) {
+                console.error('Ошибка:', error);
+              } else {
+                setPlayerGames(createGameList(data));
+              }}
+      fetchPlayer();
+    }, []);
+
+
+    function onClick(){
+      const f = localStorage.getItem('auth');
+      console.log(playerData,f)
+    }
+
+    if(!playerData) return <div onClick={onClick}>Загрузка...</div>;
+
     function logOutAccount(){
         localStorage.removeItem('auth');
         location.reload();
     }
     function toAddGame(){
       setNowKey(nowKey+1);
-      setDataGames([...dataGames,{
+      setPlayerGames([...playerGames,{
     key: `${nowKey}`,
     cage: <input style={styleInput} type='number' placeholder='клетка'/>,
     name: <input style={styleInput} placeholder='игра'/>,
@@ -143,11 +190,11 @@ export default function Account(){
     return(
         <div className='player'>
             <div className='player-info'>
-                <img className='player-img' src={user.image} alt="img1" />
+                <img className='player-img' src={playerData.image} alt="img1" />
                 
                 <div className='player-info-fio'>
                     <div style={styleFlex}>
-                        <span>{user.name}</span>
+                        <span>{playerData.name}</span>
                     </div>
                     <div style={styleFlex}>
                         {itemsInvent.map((item,key) =>(
@@ -176,7 +223,7 @@ export default function Account(){
                 }}
                 >
                 
-                    <Table style={{color:'black', marginBottom:'1rem'}} dataSource={dataGames} columns={columns} pagination={false}/>
+                    <Table style={{color:'black', marginBottom:'1rem'}} dataSource={playerGames} columns={columns} pagination={false}/>
                 
             </ConfigProvider>
             <div className="butContainer" style={{gap:'1rem'}}>

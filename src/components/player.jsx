@@ -54,25 +54,6 @@ const getStatusColor = (placeholder) => {
   }
 };
 
-const dataSource = [
-  {
-    key: '1',
-    cage: '4',
-    name: 'Elden Ring',
-    rating: '9/10',
-    result: <p style={{...styleInput, backgroundColor: getStatusColor(statusGame1)}}>{statusGame1}</p>,
-    commit: 'говное',
-  },
-  {
-    key: '2',
-    cage: '2',
-    name: 'risk of rain',
-    rating: '1/10',
-    result: <p style={{...styleInput, backgroundColor: getStatusColor(statusGame2)}}>{statusGame2}</p>,
-    commit: 'ЭТО САМАЯ ЛУЧШАЯ ИГРА',
-  },
-];
-
 const columns = [
   {
     title: 'Клетка',
@@ -117,7 +98,6 @@ function createGameList(list){
     rating: `${item.rating}/10`,
     result: <p style={{...styleInput, backgroundColor: getStatusColor(item.result)}}>{item.result}</p>,
     commit: item.commit,
-    
   }))
 }
 
@@ -130,14 +110,16 @@ export default function Player({ login }) {
   
   useEffect(() => {
       const fetchPlayer = async () => {
+        
         const { data, error } = await supabase
-          .from('Accounts') // ← имя вашей таблицы
+          .from('Accounts') 
           .select('*')
           .eq('login', login);
         if (error) {
           console.error('Ошибка:', error);
         } else {
           setPlayerData(data[0]);
+          
           if (data[0]?.gameList) {
             await fetchPlayerGames(data[0].gameList);
           }
@@ -145,7 +127,7 @@ export default function Player({ login }) {
       };
       const fetchPlayerGames = async (table) => {
         const { data, error } = await supabase
-          .from(table) // ← имя вашей таблицы
+          .from(table) 
           .select('*')
         if (error) {
           console.error('Ошибка:', error);
@@ -154,15 +136,10 @@ export default function Player({ login }) {
         }
       };
       fetchPlayer();
-      
+      setLoading(false);
     }, []);
   
-  
-  if (!playerData) return <div>Игрок не найден</div>;
-
-  function onClick(){
-    console.log(playerData, playerGames, playerData.gameList);
-  }
+  if (!playerData) return <div>Загрузка...</div>;
 
   return (
     <div className='player'>
@@ -170,7 +147,7 @@ export default function Player({ login }) {
       <div className='player-info'>
         <img className="player-img" src={playerData.image} alt="img1" />
         <div className='player-info-fio'>
-                    <span onClick={onClick}>{playerData.name}</span>
+                    <span>{playerData.name}</span>
                     <span>{playerData.info}</span>
                     
                     <div style={styleFlex}>
