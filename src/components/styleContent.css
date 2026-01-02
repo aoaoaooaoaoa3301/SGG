@@ -482,9 +482,17 @@
 
 /*table*/
 
+
 .ant-table-content{
     border-radius:8px;
     background-color:var(--color-5side);
+}
+.wrap-cell {
+    hyphens: auto;
+  word-wrap: break-word !important; 
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  
 }
 /*table*/
 

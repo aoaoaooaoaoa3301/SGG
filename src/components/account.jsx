@@ -147,7 +147,7 @@ export default function Account(){
                 
                 <div className='player-info-fio'>
                     <div style={styleFlex}>
-                        <span>{user.login}</span>
+                        <span>{user.name}</span>
                     </div>
                     <div style={styleFlex}>
                         {itemsInvent.map((item,key) =>(

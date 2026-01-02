@@ -7,6 +7,7 @@ import ContentFaq from './components/contentFaq.jsx'
 import ContentAccount from './components/contentAccount.jsx';
 import ContentDice from './components/contentDice.jsx'
 import ContentShop from './components/contentShop.jsx';
+import Test from './components/test.jsx';
 
 const { Sider, Content } = Layout;
 

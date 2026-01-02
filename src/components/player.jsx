@@ -1,6 +1,7 @@
 import { fakeFetchPlayers } from "../api";
 import { useState, useEffect } from 'react';
 import { Table, ConfigProvider } from 'antd';
+import { supabase } from '../supabaseClient';
 
 const styleFlex = {display:'flex', alignItems:'center', gap:'1rem'};
 const itemsInInventory = [
@@ -101,33 +102,67 @@ const columns = [
     title: 'Комментарий',
     dataIndex: 'commit',
     key: 'commit',
-    width: '40%',
+    width: 50,
+    height:600,
+    className: 'wrap-cell',
   },
 ];
 
+function createGameList(list){
+  console.log(list);
+  return list.map( (item)=>({
+    key: item.id,
+    cage: item.cage,
+    name: item.name,
+    rating: `${item.rating}/10`,
+    result: <p style={{...styleInput, backgroundColor: getStatusColor(item.result)}}>{item.result}</p>,
+    commit: item.commit,
+    
+  }))
+}
+
 
 export default function Player({ login }) {
-  const [playerData, setPlayerData] = useState(null);
+  const [playerData, setPlayerData] = useState();
+  const [playerGames, setPlayerGames] = useState();
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const playersData = await fakeFetchPlayers();
-        const found = playersData.find(a => a.login === login);
-        setPlayerData(found);
-      } catch (err) {
-        console.error('Ошибка загрузки:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  });
-
-  if (loading) return <div>Загрузка...</div>;
+      const fetchPlayer = async () => {
+        const { data, error } = await supabase
+          .from('Accounts') // ← имя вашей таблицы
+          .select('*')
+          .eq('login', login);
+        if (error) {
+          console.error('Ошибка:', error);
+        } else {
+          setPlayerData(data[0]);
+          if (data[0]?.gameList) {
+            await fetchPlayerGames(data[0].gameList);
+          }
+        }
+      };
+      const fetchPlayerGames = async (table) => {
+        const { data, error } = await supabase
+          .from(table) // ← имя вашей таблицы
+          .select('*')
+        if (error) {
+          console.error('Ошибка:', error);
+        } else {
+          setPlayerGames(createGameList(data));
+        }
+      };
+      fetchPlayer();
+      
+    }, []);
+  
+  
   if (!playerData) return <div>Игрок не найден</div>;
+
+  function onClick(){
+    console.log(playerData, playerGames, playerData.gameList);
+  }
 
   return (
     <div className='player'>
@@ -135,8 +170,8 @@ export default function Player({ login }) {
       <div className='player-info'>
         <img className="player-img" src={playerData.image} alt="img1" />
         <div className='player-info-fio'>
-                    <span>{playerData.name}</span>
-                    <span>{playerData.fio}</span>
+                    <span onClick={onClick}>{playerData.name}</span>
+                    <span>{playerData.info}</span>
                     
                     <div style={styleFlex}>
                         {itemsInInventory.map((item,key) =>(
@@ -158,12 +193,13 @@ export default function Player({ login }) {
                             bodySortBg:'var(--color-5side)',
                             headerBg:'var(--color-5side)',
                             headerColor: 'var(--color-white)',
+
                         }
                     }
                 }}
                 >
                 
-                    <Table style={{color:'black', marginBottom:'1rem'}} dataSource={dataSource} columns={columns} pagination={false}/>
+                    <Table style={{color:'black', marginBottom:'1rem'}} dataSource={playerGames} columns={columns} pagination={false}/>
                 
             </ConfigProvider>
     </div>

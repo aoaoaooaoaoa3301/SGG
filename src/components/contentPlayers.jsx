@@ -12,12 +12,12 @@ export default function ContentPlayers(){
                 {
                 label: 'Андрей',
                 key: '1',
-                children: <Player login='Andrey'/>,
+                children: <Player login='4556'/>,
                 },
                 {
                 label: 'Terewe',
                 key: '2',
-                children: <Player login='Tron'/>
+                children: <Player login='123'/>
                 },
                 {
                 label: 'Pocker',
