@@ -11,14 +11,16 @@ export default function ContentShop(){
             <div className="styleDiv-Content">
                 <h1>Магазин</h1>
                 <div className="grid-ShopItems">
-                    {shop.map(el => (
-                        <div key={el.id} className="cardShop">
+                    {shop.map((el, key) => (
+                        <div key={key} className="cardShop">
                             <h2>{el.name}</h2>
                             <p>осталось 2 штуки</p>
-                            <img src={el.img} alt="" />
-                            <p>{el.info} </p>
-                            
+                            <div className="img-container">
+                                <img src={el.img} alt="" />
+                            </div>
+                            <div className='container-info'><p>{el.info} </p></div>
                             <p>стоит {el.price}</p>
+                            
                             
                             <div className="butContainer">
                                 <button className="buttonToBuy">

@@ -41,7 +41,6 @@ export default function ContentWheel(){
         const audio = new Audio(clickSound);
         audio.play();
         event.preventDefault();
-        localStorage.removeItem('auth');
         const tagsForGames = valueGame.split(',').map(item => item.trim());
         const foundedGames = [];
 

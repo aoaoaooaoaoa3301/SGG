@@ -55,7 +55,7 @@ const getKeyFromPath = (pathname) => {
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeKey, setActiveKey] = useState(window.location.pathname == '/' ? 'map' : (window.location.pathname).split('/')[1] )
+  const [activeKey, setActiveKey] = useState((location.pathname == '/SGG') || (location.pathname == '/SGG/') || (location.pathname == 'SGG/')? 'map' : (location.pathname).split('/')[2])
   const navigate = useNavigate();
 
 
@@ -65,6 +65,7 @@ export default function App() {
   }));
 
   const handleMenuClick = ({ key }) => {
+    console.log(location.pathname);
     setActiveKey(key);
     if(key == 'map') { navigate(``); }
     else{ navigate(`/${key}`); }

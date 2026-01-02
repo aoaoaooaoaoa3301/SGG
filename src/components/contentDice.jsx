@@ -14,12 +14,14 @@ export default function ContentDice(){
     const onChangeInput = value => {
         setNumDice(value);
         const audioSwitch = new Audio(switchSound);
+        audioSwitch.volume = 0.5;
         audioSwitch.play();
     }
     
 
     function toRollDice() {
         const audioClick = new Audio(clickSound);
+        audioClick.volume = 0.8;
         audioClick.play();
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
@@ -30,6 +32,7 @@ export default function ContentDice(){
             const newIndices = Array.from({ length: numDice }, () =>
         Math.floor(Math.random() * dices.length));
             const audioReRoll = new Audio(reRollSound);
+            audioReRoll.volume = 0.5;
             audioReRoll.play();
             setDiceIndices(newIndices);
         }, 300);
@@ -58,12 +61,13 @@ export default function ContentDice(){
                     ))}
                     
                 </div>
-                <p>колличество кубиков</p>
-                <div id="roll">
-                <Select
+                <p style={{marginBottom:'1rem'}}>количество кубиков</p>
+                <div id="roll" >
+                    <Select
                             className="inputNumDices"
                             showSearch={{ optionFilterProp: 'label', onSearch }}
                             placeholder="1"
+                            
                             onChange={onChangeInput}
                             options={[
                             {
@@ -86,9 +90,8 @@ export default function ContentDice(){
                                 value: 5,
                                 label: '5',
                             },
-                            
                             ]}
-                        />
+                    />
                 </div>
                 <div className="butContainer">
                     <button onClick={toRollDice} className="buttonToRoll">

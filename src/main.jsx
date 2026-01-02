@@ -7,6 +7,8 @@ import ContentMap from './components/contentMap'
 import './components/styleContent.css'
 import './style.css'
 
+const basename = import.meta.env.BASE_URL;
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
   },
 ],
 {
-    basename: '/', 
+    basename: '/SGG', 
   });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
