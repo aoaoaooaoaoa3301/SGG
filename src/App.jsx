@@ -7,6 +7,7 @@ import ContentFaq from './components/contentFaq.jsx'
 import ContentAccount from './components/contentAccount.jsx';
 import ContentDice from './components/contentDice.jsx'
 import ContentShop from './components/contentShop.jsx';
+import ContentDebuffs from './components/contentDebuffs.jsx';
 import Test from './components/test.jsx';
 
 const { Sider, Content } = Layout;
@@ -14,20 +15,24 @@ const { Sider, Content } = Layout;
 const catalogs = {
   map: '',
   wheel: <ContentWheel/>,
+  
   dice: <ContentDice/>,
   players: <ContentPlayers/>,
   account: <ContentAccount />,
   shop:<ContentShop/>,
+  debuffs: <ContentDebuffs/>,
   faq: <ContentFaq />,
 };
 
 const catalogNames = {
   map: 'Карта',
   wheel: 'Колесо Игр',
+  
   dice: 'Кубик',
   players: 'Игроки',
   account: 'Аккаунт',
   shop: 'Магазин',
+  debuffs: 'Дебафы',
   faq: 'Правила',
 };
 
@@ -68,7 +73,7 @@ export default function App() {
   const handleMenuClick = ({ key }) => {
     console.log(location.pathname);
     setActiveKey(key);
-    if(key == 'map') { navigate(``); }
+    if(key == 'map') { navigate(`/`); }
     else{ navigate(`/${key}`); }
     console.log(activeKey);
   };

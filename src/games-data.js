@@ -616,7 +616,7 @@ export const games = [
 	dices:'2',
     },
     {
-        name:'Moons of Madness',
+        name:'ROUTINE',
         tag:'Space',
 	dices:'1',
     },

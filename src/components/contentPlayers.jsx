@@ -32,29 +32,11 @@ export default function ContentPlayers(){
                 <Tabs 
                 tabPosition={'top'}
                 
-                items={playersData.map( (item) => ({
+                items={playersData.sort((a, b) => a.id - b.id).map( (item) => ({
                     label: item.name,
                     key:item.id,
                     children: <Player login={item.login}/>
                 }))}
-
-                ites={[
-                {
-                label: 'Андрей',
-                key: '1',
-                children: <Player login='4556'/>,
-                },
-                {
-                label: 'Terewe',
-                key: '2',
-                children: <Player login='123'/>
-                },
-                {
-                label: 'Pocker',
-                key: '3',
-                children: <Player login='Pocker'/>,
-                },
-                ]}
                 />
             </div>
         </div>

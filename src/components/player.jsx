@@ -2,6 +2,7 @@ import { fakeFetchPlayers } from "../api";
 import { useState, useEffect } from 'react';
 import { Table, ConfigProvider } from 'antd';
 import { supabase } from '../supabaseClient';
+import { getStatusColor } from '../utils.js';
 
 const styleFlex = {display:'flex', alignItems:'center', gap:'1rem'};
 const itemsInInventory = [
@@ -37,22 +38,11 @@ const itemsInInventory = [
   },
   
 ]
-const statusGame1 = 'Дроп';
-const statusGame2 = 'Пройдено';
 const styleInput = {
     width:'100%',
     textAlign: 'center',
     borderRadius:'8rem'
 }
-const getStatusColor = (placeholder) => {
-  switch (placeholder) {
-    case 'Пройдено': return 'green';
-    case 'Дроп': return 'red';
-    case 'В процессе': return 'orange';
-    case 'Рерол': return 'blue';
-    default: return '';
-  }
-};
 
 const columns = [
   {
@@ -77,20 +67,17 @@ const columns = [
     title: 'Результат',
     dataIndex: 'result',
     key: 'result',
-    width: '20%',
+    width: '15%',
   },
   {
     title: 'Комментарий',
     dataIndex: 'commit',
     key: 'commit',
-    width: 50,
-    height:600,
     className: 'wrap-cell',
   },
 ];
 
 function createGameList(list){
-  console.log(list);
   return list.map( (item)=>({
     key: item.id,
     cage: item.cage,
@@ -98,6 +85,7 @@ function createGameList(list){
     rating: `${item.rating}/10`,
     result: <p style={{...styleInput, backgroundColor: getStatusColor(item.result)}}>{item.result}</p>,
     commit: item.commit,
+    
   }))
 }
 
@@ -106,28 +94,38 @@ export default function Player({ login }) {
   const [playerData, setPlayerData] = useState();
   const [playerGames, setPlayerGames] = useState();
   const [loading, setLoading] = useState(true);
+  const [playerInventory, setPlayerInventory] = useState([]);
+  
 
   
   useEffect(() => {
       const fetchPlayer = async () => {
-        
         const { data, error } = await supabase
-          .from('Accounts') 
+          .from('Accounts')
           .select('*')
           .eq('login', login);
         if (error) {
           console.error('Ошибка:', error);
         } else {
           setPlayerData(data[0]);
-          
           if (data[0]?.gameList) {
             await fetchPlayerGames(data[0].gameList);
+            await fetchPlayerInventory(data[0].inventoryList);
           }
         }
       };
+      const fetchPlayerInventory = async (table) => {
+              const { data, error } = await supabase
+                .from(table)
+                .select('*')
+              if (error) {
+                console.error('Ошибка:', error);
+              } else {
+                setPlayerInventory(data);
+              }}
       const fetchPlayerGames = async (table) => {
         const { data, error } = await supabase
-          .from(table) 
+          .from(table)
           .select('*')
         if (error) {
           console.error('Ошибка:', error);
@@ -136,10 +134,15 @@ export default function Player({ login }) {
         }
       };
       fetchPlayer();
-      setLoading(false);
+      
     }, []);
   
+  
   if (!playerData) return <div>Загрузка...</div>;
+
+  function onClick(){
+    console.log(playerData, playerGames, playerData.gameList);
+  }
 
   return (
     <div className='player'>
@@ -147,16 +150,17 @@ export default function Player({ login }) {
       <div className='player-info'>
         <img className="player-img" src={playerData.image} alt="img1" />
         <div className='player-info-fio'>
-                    <span>{playerData.name}</span>
+                    <span onClick={onClick}>{playerData.name}</span>
                     <span>{playerData.info}</span>
                     
                     <div style={styleFlex}>
-                        {itemsInInventory.map((item,key) =>(
-                          <div className='itemInventory' key={key}>
-                            <div className="item-container">
-                              <img src={item.img} alt="" />
+                        {playerInventory.sort((a, b) => a.id - b.id).map((item) =>(
+                          <div className='itemInventory' key={item.id}>
+                            <div className="item-container" style={{backgroundColor: ((item.id == 5) || (item.id == 6)) ? 'var(--color-debuff)' : 'var(--color-buff)'}}>
+                              <img src={item.image} alt="" />
+                              <p>{item?.image ? '' :item.name}</p>
+                              <span className="cage-info">{item.info}</span>
                             </div>
-                            
                           </div>
                         ))}
                     </div>
@@ -166,11 +170,11 @@ export default function Player({ login }) {
                 theme={{
                     components:{
                         Table:{
-                            rowHoverBg:'var(--color-5side)',
-                            bodySortBg:'var(--color-5side)',
-                            headerBg:'var(--color-5side)',
-                            headerColor: 'var(--color-white)',
-
+                          rowHoverBg:'var(--color-5side)',
+                          bodySortBg:'var(--color-5side)',
+                          headerBg:'var(--color-5side)',
+                          headerColor: 'var(--color-white)',
+                          colorBgContainer: 'var(--color-5side)',
                         }
                     }
                 }}

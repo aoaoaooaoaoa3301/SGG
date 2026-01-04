@@ -1,9 +1,45 @@
 import { fakeFetchMap } from "../api";
 import { useState, useEffect } from 'react';
+import Icon from './icon.jsx'; 
+import { supabase } from '../supabaseClient';
 
 export default function ContentMap(){
     const [mapData, setMapData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [icons, setIcons] = useState([]);
+    const currentLogin = localStorage.getItem('auth');
+
+    // Загрузка всех иконок
+    const loadIcons = async () => {
+        const { data, error } = await supabase
+        .from('IconsOnMap')
+        .select('*');
+
+        if (error) {
+        console.error('Ошибка загрузки иконок:', error);
+        } else {
+        setIcons(data);
+        }
+    };
+
+    // Обновление позиции иконки в Supabase
+    const updateIconPosition = async (id, position) => {
+        const { error } = await supabase
+        .from('IconsOnMap')
+        .update({ x: position.x, y: position.y })
+        .eq('login', currentLogin); // ← защита!
+
+        if (error) {
+        console.error('Ошибка обновления позиции:', error);
+        } else {
+        // Опционально: обновить локальное состояние
+        setIcons(prev =>
+            prev.map(icon =>
+            icon.id === id ? { ...icon, x: position.x, y: position.y } : icon
+            )
+        );
+        }
+    };
 
     useEffect(() => {
             const fetchData = async () => {
@@ -18,6 +54,7 @@ export default function ContentMap(){
         };
         
     fetchData();
+    loadIcons();
     });
         
     if (loading) return <div>Загрузка...</div>;
@@ -25,7 +62,19 @@ export default function ContentMap(){
 
     return(
         <div className="styleDiv flex-center" id='map'>
-            <div className="styleDiv-Content">
+            <div className="styleDiv-Content game-field" style={{position:'relative'}}>
+                
+                {icons.map((icon) => (
+                    <Icon
+                        key={icon.id}
+                        iconPosition={[icon.x,icon.y]}
+                        icon={icon.image}
+                        image={icon.image}
+                        isOwner={icon.login === currentLogin}
+                        onUpdatePosition={updateIconPosition}
+                    />
+                ))}
+                    
                 {mapData.map( (cage,index) => (
                     <div key={index} className={"cage" + (cage.end == 'yes' ? "" : " " + (cage.special == 'yes' ? "cage-special" : (cage.line == 1 ? "cage-1line" : "cage-2line"))) }  style={{backgroundColor:cage.color}}>
                         {cage.name}

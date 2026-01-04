@@ -1,22 +1,9 @@
-import { players } from './../players-data.js';
 import { Table, ConfigProvider } from 'antd';
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient.js';
+import { getStatusColor } from '../utils.js';
 
 const styleFlex = {display:'flex', alignItems:'center', gap:'1rem'};
-const statusGame1 = 'Дроп';
-const statusGame2 = 'Пройдено';
-
-
-const getStatusColor = (placeholder) => {
-  switch (placeholder) {
-    case 'Пройдено': return 'green';
-    case 'Дроп': return 'red';
-    case 'В процессе': return 'orange';
-    case 'Рерол': return 'blue';
-    default: return '';
-  }
-};
 const styleInput = {
     width:'100%',
 }
@@ -46,33 +33,19 @@ const itemsInInventory = [
     price:1
   },
   {
-    
+    name:'Щит упрямства',
+    info:'Блокирует получение дебаффа на один раз, если при покупке предмета, у игрока уже есть один дебафф, игнорирует его',
+    img:'pictures/Shield.png',
+    price:1
   },
   {
-    
+    name:'Щит упрямства',
+    info:'Блокирует получение дебаффа на один раз, если при покупке предмета, у игрока уже есть один дебафф, игнорирует его',
+    img:'pictures/Shield.png',
+    price:1
   },
   
 ]
-
-
-const dataSource = [
-  {
-    key: '1',
-    cage: <input style={styleInput} type='number' placeholder='4'/>,
-    name: <input style={styleInput} placeholder='Elden Ring'/>,
-    rating: <input style={styleInput} type='number' placeholder='9/10'/>,
-    result: <input style={{...styleInput, backgroundColor: getStatusColor(statusGame1)}}  placeholder={statusGame1}/>,
-    commit: <input style={styleInput} placeholder='говное'/>,
-  },
-  {
-    key: '2',
-    cage: <input style={styleInput} type='number' placeholder='2'/>,
-    name: <input style={styleInput} placeholder='risk of rain'/>,
-    rating: <input style={styleInput} type='number' placeholder='1/10'/>,
-    result: <input style={{...styleInput, backgroundColor: getStatusColor(statusGame2)}} placeholder={statusGame2}/>,
-    commit: <input style={styleInput} placeholder='ЭТО САМАЯ ЛУЧШАЯ ИГРА'/>,
-  },
-];
 
 const columns = [
   {
@@ -97,35 +70,24 @@ const columns = [
     title: 'Результат',
     dataIndex: 'result',
     key: 'result',
-    width: '20%',
+    width: '15%',
   },
   {
     title: 'Комментарий',
     dataIndex: 'commit',
     key: 'commit',
-    width: '40%',
+    
   },
 ];
-function createGameList(list){
-  return list.map( item => ({
-    key: item.id,
-    cage: <input style={styleInput} type='number' placeholder={item.cage }/>,
-    name: <input style={styleInput} placeholder={item.name }/>,
-    rating:  <input style={styleInput} type='number' placeholder={`${item.rating}/10`}/>,
-    result: <input style={{...styleInput, backgroundColor: getStatusColor(item.result)}} placeholder={item.result}/>,
-    commit: <input style={styleInput} placeholder={item.commit}/>,
-  }))
-}
+
 
 
 export default function Account(){
-    const userlogin = localStorage.getItem('auth');
-    const user = players.find(a => a.login === userlogin);
-    const [nowKey, setNowKey] = useState(dataSource.length+1);
-    const [dataGames, setDataGames] = useState(dataSource);
     const [itemsInvent, setItemsInvent] = useState(itemsInInventory);
-    const [playerData, setPlayerData] = useState();
-    const [playerGames, setPlayerGames] = useState();
+    const [playerData, setPlayerData] = useState([]);
+    const [playerGames, setPlayerGames] = useState([]);
+    const [playerGamesData, setPlayerGamesData] = useState([]);
+    const [playerInventory, setPlayerInventory] = useState([]);
     
     useEffect(() =>{
       const fetchPlayer = async () =>{
@@ -138,54 +100,137 @@ export default function Account(){
             setPlayerData(data[0])
             if (data[0]?.gameList) {
               await fetchPlayerGames(data[0].gameList);
+              await fetchPlayerInventory(data[0].inventoryList);
             }
           }
       }
+      const fetchPlayerInventory = async (table) => {
+              const { data, error } = await supabase
+                .from(table)
+                .select('*')
+              if (error) {
+                console.error('Ошибка:', error);
+              } else {
+                setPlayerInventory(data);
+              }}
+      
       const fetchPlayerGames = async (table) => {
               const { data, error } = await supabase
-                .from(table) // ← имя вашей таблицы
+                .from(table)
                 .select('*')
               if (error) {
                 console.error('Ошибка:', error);
               } else {
                 setPlayerGames(createGameList(data));
+                setPlayerGamesData(data);
               }}
+
       fetchPlayer();
     }, []);
 
+    if(!playerData) return <div>Загрузка...</div>;
 
-    function onClick(){
-      const f = localStorage.getItem('auth');
-      console.log(playerData,f)
+    function createGameList(list){
+      return list.map( item => ({
+        key: item.id,
+        id: item.id,
+        cage: <input onChange={(e) => handleInputChange(item.id, 'cage', e.target.value)} style={styleInput} type='number' placeholder={item.cage }/>,
+        name: <input onChange={(e) => handleInputChange(item.id, 'name', e.target.value)} style={styleInput} placeholder={item.name }/>,
+        rating:  <input onChange={(e) => handleInputChange(item.id, 'rating', e.target.value)} style={styleInput} type='number' placeholder={`${item.rating}/10`}/>,
+        result: <input onChange={(e) => handleInputChange(item.id, 'result', e.target.value)} style={{...styleInput, backgroundColor: getStatusColor(item.result)}} placeholder={item.result}/>,
+        commit: <input onChange={(e) => handleInputChange(item.id, 'commit', e.target.value)} style={styleInput} placeholder={item.commit}/>,
+      }))
     }
-
-    if(!playerData) return <div onClick={onClick}>Загрузка...</div>;
 
     function logOutAccount(){
         localStorage.removeItem('auth');
         location.reload();
     }
-    function toAddGame(){
-      setNowKey(nowKey+1);
-      setPlayerGames([...playerGames,{
-    key: `${nowKey}`,
-    cage: <input style={styleInput} type='number' placeholder='клетка'/>,
-    name: <input style={styleInput} placeholder='игра'/>,
-    rating: <input style={styleInput} type='number' placeholder='оценка'/>,
-    result: <input style={{...styleInput, backgroundColor: getStatusColor('результат')}}  placeholder='результат'/>,
-    commit: <input style={styleInput} placeholder='оценка'/>,
-  }])
-      console.log(dataGames);
-    }
-    const toRemoveItem = (event, index) => {
+    const toRemoveItem = async (event, item) => {
       event.preventDefault();
+      const { error: updateError } = await supabase
+        .from(playerData.inventoryList)
+        .update({
+        name: '',
+        info: '',
+        image: null,
+        })
+        .eq('id', item.id);
 
-      setItemsInvent(prev => {
-        const newItems = [...prev];
-        newItems[index] = {};
-        return newItems;
-      });
+        if (updateError) {
+          console.error('Ошибка обновления:', updateError);
+          alert('Не удалось добавить предмет в инвентарь');
+          return;
+        }
+        else {alert(`Вы удалили предмет ${item.name}`); location.reload();}
     };
+
+    function toAddGame(){
+      
+      setPlayerGames([...playerGames,{
+        key: playerGames.length + 1,
+        id: playerGames.length + 1,
+        cage: <input onChange={(e) => handleInputChange(playerGames.length + 1, 'cage', e.target.value)} style={styleInput} type='number' placeholder='клетка'/>,
+        name: <input onChange={(e) => handleInputChange(playerGames.length + 1, 'name', e.target.value)} style={styleInput} placeholder='игра'/>,
+        rating: <input onChange={(e) => handleInputChange(playerGames.length + 1, 'rating', e.target.value)} style={styleInput} type='number' placeholder='оценка'/>,
+        result: <input onChange={(e) => handleInputChange(playerGames.length + 1, 'result', e.target.value)} style={{...styleInput, backgroundColor: getStatusColor('результат')}}  placeholder='результат'/>,
+        commit: <input onChange={(e) => handleInputChange(playerGames.length + 1, 'commit', e.target.value)} style={styleInput} placeholder='комментарий'/>,
+      }])
+
+      setPlayerGamesData([
+        ...playerGamesData,
+        {
+          id: playerGames.length + 1,
+          cage: 0,
+          name: '',
+          rating: 0,
+          result: '',
+          commit: '',
+        }
+      ])
+    }
+    
+    const handleInputChange = (id, field, value) => {
+      setPlayerGamesData(prev =>
+        prev.map(row =>
+          row.id === id ? { ...row, [field]: value } : row
+        )
+      );
+    };
+
+    const saveAllRows = async () => {
+      const savedData = playerGamesData.map(row => ({
+        id: row.id,
+        cage: row.cage,
+        name: row.name,
+        rating: row.rating,
+        result: row.result,
+        commit: row.commit,
+      }));
+
+      console.log('✅ Сохранённые строки:', savedData);
+       try {
+        const { error: deleteError } = await supabase
+          .from(playerData.gameList)
+          .delete()
+          .neq('id', 0);
+
+        if (deleteError) throw deleteError;
+
+        if (savedData.length > 0) {
+          const { error: insertError } = await supabase
+            .from(playerData.gameList)
+            .insert(savedData);
+
+          if (insertError) throw insertError;
+        }
+
+        alert('✅ Таблица успешно сохранена!');
+      } catch (err) {
+        console.error('Ошибка сохранения:', err);
+        alert('❌ Не удалось сохранить таблицу: ' + err.message);
+      }
+      };
 
     return(
         <div className='player'>
@@ -193,14 +238,17 @@ export default function Account(){
                 <img className='player-img' src={playerData.image} alt="img1" />
                 
                 <div className='player-info-fio'>
-                    <div style={styleFlex}>
+                    <div style={{...styleFlex , flexDirection:'column'}}>
                         <span>{playerData.name}</span>
+                        <span>У тебя {playerData.balance} репутации</span>
                     </div>
                     <div style={styleFlex}>
-                        {itemsInvent.map((item,key) =>(
-                          <form onSubmit={(e) => toRemoveItem(e, key)} className='itemInventory' key={key}>
-                            <div className="item-container">
-                              <img src={item.img} alt="" />
+                        {playerInventory.sort((a, b) => a.id - b.id).map((item) =>(
+                          <form onSubmit={(e) => toRemoveItem(e, item)} className='itemInventory' key={item.id}>
+                            <div className="item-container" style={{backgroundColor: ((item.id == 5) || (item.id == 6)) ? 'var(--color-debuff)' : 'var(--color-buff)'}}>
+                              <img src={item.image} alt="" />
+                              <p>{item?.image ? '' :item.name}</p>
+                              <span className="cage-info">{item.info}</span>
                             </div>
                             <button>🗑️</button>
                           </form>
@@ -218,6 +266,7 @@ export default function Account(){
                             bodySortBg:'var(--color-5side)',
                             headerBg:'var(--color-5side)',
                             headerColor: 'var(--color-white)',
+                            colorBgContainer: 'var(--color-5side)',
                         }
                     }
                 }}
@@ -228,7 +277,7 @@ export default function Account(){
             </ConfigProvider>
             <div className="butContainer" style={{gap:'1rem'}}>
               <button onClick={toAddGame} className='button-toAddGameStats'>+</button>
-              <button  className='button-toAddGameStats'>✔</button>
+              <button onClick={saveAllRows} className='button-toAddGameStats'>✔</button>
               
             </div>
             

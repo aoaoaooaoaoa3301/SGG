@@ -1,1 +1,1 @@
-export const ALLOWED_LOGINS = ['123', '4556','Tron'];
+export const ALLOWED_LOGINS = ['123', '4556' ,'789235689','231'];
